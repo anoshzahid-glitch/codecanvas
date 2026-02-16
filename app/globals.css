@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cyber-blue: #00d9ff;
+    --cyber-purple: #bd00ff;
+    --cyber-pink: #ff006e;
+    --cyber-green: #00ff87;
+  }
+
+  * {
+    /* Performance optimization for animations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cyber-darker text-white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Hardware acceleration for smoother animations */
+  canvas {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Prevent text selection on interactive elements */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-panel:hover {
+    @apply bg-white/10 border-white/20;
+    transform: translateY(-2px);
+  }
+
+  .neon-border {
+    @apply border-2 border-cyber-blue;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.5),
+                inset 0 0 10px rgba(0, 217, 255, 0.2);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px currentColor,
+                 0 0 20px currentColor,
+                 0 0 30px currentColor;
+  }
+
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, rgba(0, 217, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 217, 255, 0.1) 50%,
+      transparent 100%
+    );
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+  }
+
+  .code-block {
+    @apply glass-panel p-6 font-mono text-sm overflow-x-auto;
+  }
+
+  .cyber-button {
+    @apply relative px-6 py-3 bg-cyber-blue/10 border border-cyber-blue rounded-lg
+           font-semibold text-cyber-blue transition-all duration-300
+           hover:bg-cyber-blue/20 hover:shadow-lg hover:shadow-cyber-blue/50
+           active:scale-95;
+    transform: translateZ(0);
+  }
+
+  .cyber-button:hover {
+    transform: translateY(-2px) translateZ(0);
+  }
+
+  .cyber-button-primary {
+    @apply cyber-button bg-cyber-blue text-cyber-darker hover:bg-cyber-blue/90;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cyber-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyber-purple);
+}
+
+/* Selection */
+::selection {
+  background: var(--cyber-blue);
+  color: var(--cyber-darker);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px var(--cyber-blue), 0 0 10px var(--cyber-blue); }
+  100% { box-shadow: 0 0 20px var(--cyber-blue), 0 0 30px var(--cyber-blue), 0 0 40px var(--cyber-blue); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
